@@ -23,10 +23,10 @@ List view will only load 5 items at once, clicking on 'Load More' button will lo
 2. Sign up for a new Developer account on [Salesforce](https://developer.salesforce.com).
 3. Insall [VS-Code](https://code.visualstudio.com)(Optional).
 4. Clone this repository:
-```
-git clone https://github.com/manishSbisht/Shopify-Salesforce-Integration.git
-cd Shopify-Salesforce-Integration
-```
+    ```
+    git clone https://github.com/manishSbisht/Shopify-Salesforce-Integration.git
+    cd Shopify-Salesforce-Integration
+    ```
 5. Authorize your Dev account, provide something for alias('anythingXYZ' in command below):
     ```
     sfdx force:auth:web:login --setalias anythingXYZ --instanceurl https://login.salesforce.com --setdefaultusername
