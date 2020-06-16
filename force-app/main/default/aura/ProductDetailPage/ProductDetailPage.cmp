@@ -5,7 +5,7 @@
 
     <aura:if isTrue="{!not(empty(v.product))}">
         <lightning:card title="Details" iconName="utility:list">
-            <lightning:layout>
+            <lightning:layout class="slds-var-p-left_medium slds-var-p-bottom_medium">
 
                 <lightning:layoutItem size="4">
                     <img src="{!v.product.image.src}" class="slds-align_absolute-center crop" />
