@@ -1,0 +1,43 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="customer" type="Object" default="" />
+    <aura:handler event="c:customerClicked" action="{!c.handleCustomerClicked}" />
+
+
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+            <aura:if isTrue="{!not(empty(v.customer))}">
+                <lightning:card title="Details" iconName="utility:list">
+
+                    <p class="slds-var-p-horizontal_small">
+                    <ul class="slds-list_vertical slds-has-dividers_top-space slds-var-p-horizontal_medium">
+                        <li class="slds-item">
+                            <strong>ID: </strong>{!v.customer.id}</li>
+                        <li class="slds-item">
+                            <strong>Name: </strong>{!v.customer.first_name +' ' + v.customer.last_name}</li>
+                        <li class="slds-item">
+                            <strong>Email: </strong>{!v.customer.email}</li>
+                        <li class="slds-item">
+                            <strong>Total Spent: </strong>{!v.customer.total_spent}</li>
+                        <li class="slds-item">
+                            <strong>Orders: </strong>{!v.customer.orders_count}</li>
+                        <li class="slds-item">
+                            <strong>Address: </strong>{! v.customer.default_address.address1+', ' +
+                            v.customer.default_address.address2 +', '+v.customer.default_address.city+',
+                            '+v.customer.default_address.province+', '+v.customer.default_address.country}
+                        </li>
+                        <li class="slds-item">
+                            <strong>Zip code: </strong>{!v.customer.default_address.zip}</li>
+                    </ul>
+                    </p>
+                </lightning:card>
+
+                <aura:set attribute="else">
+                    <lightning:card title="No Customer chosen" />
+                </aura:set>
+
+            </aura:if>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

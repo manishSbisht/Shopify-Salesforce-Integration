@@ -1,0 +1,84 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global"
+                controller="ShopifySalesforce">
+
+    <aura:attribute name="customerList" type="Object[]" default="[]" />
+    <aura:attribute name="selectedCustomerId" type="String" default="" />
+
+    <aura:attribute name="limit" type="Integer" default="5" />
+    <!-- number of items to fetch at once -->
+    <aura:attribute name="sinceId" type="String" default="0" />
+    <!-- stores the Id of last item fetched -->
+
+    <aura:attribute name="showLoadMore" type="boolean" default="true" />
+
+
+    <aura:attribute name="orderCountOptions" type="String[]" default="" />
+    <aura:attribute name="marketingOptions" type="String[]" default="['true','false']" />
+    <aura:attribute name="countryOptions" type="String[]" default="" />
+
+    <aura:attribute name="selectedOrderCount" type="String" default="" />
+    <aura:attribute name="selectedMarketing" type="String" default="" />
+    <aura:attribute name="selectedCountry" type="String" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler event="c:customerClicked" action="{!c.handleCustomerClicked}" />
+
+    <!-- Filter Card -->
+    <lightning:card title="Filters" class="filterbox slds-var-m-bottom_medium slds-var-p-bottom_medium"
+                    iconName="standard:filter">
+        <lightning:layout multipleRows="false" horizontalAlign="space" verticalAlign="center">
+            <lightning:layoutItem size="3">
+                <lightning:select label="Orders Count" aura:id="orderCountPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.orderCountOptions}" var="orderCount">
+                        <option>{!orderCount}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Accepts Marketing" aura:id="marketingPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.marketingOptions}" var="x">
+                        <option>{!x}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Country" aura:id="countryPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.countryOptions}" var="country">
+                        <option>{!country}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+
+    <lightning:layout multipleRows="true" horizontalAlign="center">
+        <lightning:layoutItem size="12">
+            <lightning:card title="All customers" iconName="standard:client">
+                <ul
+                    class="slds-list_vertical slds-has-dividers_around-space slds-var-p-horizontal_medium slds-text-align_center">
+                    <aura:iteration items="{!v.customerList}" var="customer">
+
+
+                        <c:CustomerListItem customer="{!customer}"
+                                            selected="{!v.selectedCustomerId==customer.id?true:false}" />
+
+                    </aura:iteration>
+
+                </ul>
+            </lightning:card>
+        </lightning:layoutItem>
+
+        <aura:if isTrue="{!v.showLoadMore}">
+            <lightning:layoutItem size="2">
+                <!-- <lightning:tile class="slds-show"> -->
+                <lightning:button class="slds-var-m-top_small" variant="brand" label="Load More"
+                                  onclick="{!c.loadMoreRecords}" />
+                <!-- </lightning:tile> -->
+            </lightning:layoutItem>
+        </aura:if>
+
+    </lightning:layout>
+</aura:component>

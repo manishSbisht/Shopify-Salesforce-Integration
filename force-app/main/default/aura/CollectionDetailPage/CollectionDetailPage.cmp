@@ -1,0 +1,40 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="ShopifySalesforce">
+
+    <aura:attribute name="collection" type="Object" default="" />
+    <aura:handler event="c:CollectionClicked" action="{!c.handleCollectionClicked}" />
+
+    <aura:if isTrue="{!not(empty(v.collection))}">
+        <lightning:card title="Details" iconName="utility:list">
+            <!-- <aura:set attribute="actions">
+            <form action="https://google.com">
+                <lightning:button label="Open" type="submit" />
+            </form>
+        </aura:set> -->
+            <lightning:layout>
+
+                <lightning:layoutItem size="4">
+                    <img src="{!v.collection.image.src}" class="slds-align_absolute-center crop" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="8" class="detail-column">
+                    <ul class="slds-list_vertical slds-has-dividers_top-space slds-var-p-horizontal_medium">
+                        <li class="slds-item">
+                            <strong>ID: </strong>{!v.collection.id}</li>
+                        <li class="slds-item">
+                            <strong>Title: </strong>{!v.collection.title}</li>
+                        <li class="slds-item">
+                            <strong>Type: </strong><span style="text-transform: capitalize;">{!
+                                v.collection.collection_type+' Collection'}</span>
+                        </li>
+                        <li class="slds-item">
+                            <strong>Products: </strong>{!v.collection.products_count}</li>
+                    </ul>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:card>
+        <aura:set attribute="else">
+            <lightning:card title="No Collection chosen" />
+        </aura:set>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,40 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="order" type="Object" default="" />
+    <aura:handler event="c:orderClicked" action="{!c.handleOrderClicked}" />
+
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+            <aura:if isTrue="{!not(empty(v.order))}">
+                <lightning:card title="Details" iconName="utility:list">
+
+                    <p class="slds-var-p-horizontal_small">
+                    <ul class="slds-list_vertical slds-has-dividers_top-space slds-var-p-horizontal_medium">
+                        <li class="slds-item">
+                            <strong>ID: </strong>{!v.order.id}</li>
+                        <li class="slds-item">
+                            <strong>OrderNumber: </strong>{!v.order.order_number}</li>
+                        <li class="slds-item">
+                            <strong>Email: </strong>{!v.order.email}</li>
+                        <li class="slds-item">
+                            <strong>Total Price: </strong>{!v.order.total_price}</li>
+                        <li class="slds-item">
+                            <strong>Gateway: </strong>{!v.order.gateway}</li>
+                        <li class="slds-item">
+                            <strong>Customer: </strong>{! v.order.customer.first_name + v.order.customer.last_name}
+                        </li>
+                        <li class="slds-item">
+                            <strong>Customer ID: </strong>{!v.order.customer.id}</li>
+                    </ul>
+                    </p>
+                </lightning:card>
+
+                <aura:set attribute="else">
+                    <lightning:card title="No Order chosen" />
+                </aura:set>
+
+            </aura:if>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

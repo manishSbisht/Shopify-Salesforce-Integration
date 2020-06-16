@@ -1,0 +1,12 @@
+<aura:component>
+    <aura:attribute name="collection" type="Object" />
+    <aura:attribute name="selected" type="boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <aura:registerEvent name="CollectionClicked" type="c:CollectionClicked" />
+
+    <li class="{!v.selected ? 'slds-item selected': 'slds-item'}" onclick="{!c.onCollectionSelect}">
+        {!v.collection.title}
+    </li>
+</aura:component>

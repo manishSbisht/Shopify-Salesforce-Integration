@@ -1,0 +1,12 @@
+<aura:component>
+    <aura:attribute name="customer" type="Object" />
+    <aura:attribute name="selected" type="boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <aura:registerEvent name="customerClicked" type="c:customerClicked" />
+
+    <li class="{!v.selected ? 'slds-item selected': 'slds-item'}" onclick="{!c.onCustomerSelect}">
+        {!v.customer.first_name+' '+v.customer.last_name}
+    </li>
+</aura:component>

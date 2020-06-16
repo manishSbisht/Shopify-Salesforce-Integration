@@ -1,0 +1,92 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global"
+                controller="ShopifySalesforce">
+
+    <aura:attribute name="orderList" type="Object[]" default="[]" />
+    <aura:attribute name="selectedOrderId" type="String" default="" />
+
+    <aura:attribute name="limit" type="Integer" default="5" />
+    <!-- number of items to fetch at once -->
+    <aura:attribute name="sinceId" type="String" default="0" />
+    <!-- stores the Id of last item fetched -->
+
+    <aura:attribute name="showLoadMore" type="boolean" default="true" />
+
+    <aura:attribute name="statusOptions" type="String[]" default="['any','open','closed','cancelled']" />
+    <aura:attribute name="finStatusOptions" type="String[]" default="" />
+    <aura:attribute name="fullfStatusOptions" type="String[]" default="" />
+
+    <aura:attribute name="selectedStatus" type="String" default="" />
+    <aura:attribute name="selectedFinStatus" type="String" default="" />
+    <aura:attribute name="selectedFulfStatus" type="String" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler event="c:orderClicked" action="{!c.handleOrderClicked}" />
+
+    <lightning:card title="Filters" class="filterbox slds-var-m-bottom_medium slds-var-p-bottom_medium"
+                    iconName="standard:filter">
+        <lightning:layout multipleRows="false" horizontalAlign="space" verticalAlign="center">
+            <lightning:layoutItem size="3">
+                <lightning:select label="Status" aura:id="statusPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.statusOptions}" var="status">
+                        <option>{!status}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Financial Status" aura:id="finStatusPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.finStatusOptions}" var="finSt">
+                        <option>{!finSt}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Fullfilment Status" aura:id="fulfStatusPicklist"
+                                  onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.fullfStatusOptions}" var="fulfSt">
+                        <option>{!fulfSt}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+
+    <lightning:layout multipleRows="true" horizontalAlign="center">
+
+        <lightning:layoutItem size="12" class="left expanded">
+            <aura:if isTrue="{!not(empty(v.orderList))}">
+                <lightning:card title="Orders List" iconName="standard:shipment">
+                    <ul
+                        class="slds-list_vertical slds-has-dividers_around-space slds-text-align_center slds-var-p-horizontal_medium">
+                        <aura:iteration items="{!v.orderList}" var="order">
+                            <c:OrderListItem order="{!order}" selected="{!v.selectedOrderId==order.id?true:false}" />
+
+                        </aura:iteration>
+
+                    </ul>
+                </lightning:card>
+                <aura:set attribute="else">
+                    <lightning:card title="No Order found">
+
+                    </lightning:card>
+                </aura:set>
+            </aura:if>
+        </lightning:layoutItem>
+        <aura:if isTrue="{!v.showLoadMore}">
+            <lightning:layoutItem size="2">
+                <!-- <lightning:tile class="slds-show"> -->
+                <lightning:button class="slds-var-m-top_small" variant="brand" label="Load More"
+                                  onclick="{!c.loadMoreRecords}" />
+                <!-- </lightning:tile> -->
+            </lightning:layoutItem>
+        </aura:if>
+        <!-- <lightning:layoutItem size="12" class="load-more-btn slds-show"> -->
+
+
+    </lightning:layout>
+
+
+
+</aura:component>

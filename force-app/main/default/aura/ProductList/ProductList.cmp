@@ -1,0 +1,83 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global"
+                controller="ShopifySalesforce">
+
+    <aura:attribute name="productList" type="Object[]" default="[]" />
+    <aura:attribute name="selectedProductId" type="String" default="" />
+
+    <aura:attribute name="limit" type="Integer" default="5" />
+    <!-- number of items to fetch at once -->
+    <aura:attribute name="sinceId" type="String" default="0" />
+    <!-- stores the Id of last item fetched -->
+
+    <aura:attribute name="showLoadMore" type="boolean" default="true" />
+
+    <aura:attribute name="vendorOptions" type="String[]" default="" />
+    <aura:attribute name="typeOptions" type="String[]" default="" />
+    <aura:attribute name="scopeOptions" type="String[]" default="" />
+
+    <aura:attribute name="selectedVendor" type="String" default="" />
+    <aura:attribute name="selectedType" type="String" default="" />
+    <aura:attribute name="selectedScope" type="String" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler event="c:productClicked" action="{!c.handleProductClicked}" />
+    <!-- Filter Card -->
+    <lightning:card title="Filters" class="filterbox slds-var-m-bottom_medium slds-var-p-bottom_medium"
+                    iconName="standard:filter">
+        <lightning:layout multipleRows="false" horizontalAlign="space" verticalAlign="center">
+            <lightning:layoutItem size="3">
+                <lightning:select label="Vendor" aura:id="vendorPicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.vendorOptions}" var="vendor">
+                        <option>{!vendor}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Product Type" aura:id="typePicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.typeOptions}" var="type">
+                        <option>{!type}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="3">
+                <lightning:select label="Publish Scope" aura:id="scopePicklist" onchange="{!c.onFilterChange}">
+                    <option value=''>All</option>
+                    <aura:iteration items="{!v.scopeOptions}" var="scope">
+                        <option>{!scope}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+    <!-- Order List card -->
+    <lightning:layout multipleRows="true" horizontalAlign="center">
+
+        <lightning:layoutItem aura:id="leftColumn" size="12" class="left expanded">
+            <lightning:card title="Product List" iconName="standard:product_item">
+                <ul
+                    class="slds-list_vertical slds-has-dividers_around-space slds-text-align_center slds-var-p-horizontal_medium ">
+                    <aura:iteration items="{!v.productList}" var="product">
+
+                        <c:ProductListItem product="{!product}"
+                                           selected="{!v.selectedProductId==product.id?true:false}" />
+
+                    </aura:iteration>
+
+                </ul>
+            </lightning:card>
+        </lightning:layoutItem>
+
+        <!-- Load More button -->
+        <aura:if isTrue="{!v.showLoadMore}">
+            <lightning:layoutItem size="2">
+                <!-- <lightning:tile class="slds-show"> -->
+                <lightning:button class="slds-var-m-top_small" variant="brand" label="Load More"
+                                  onclick="{!c.loadMoreRecords}" />
+                <!-- </lightning:tile> -->
+            </lightning:layoutItem>
+        </aura:if>
+
+    </lightning:layout>
+</aura:component>

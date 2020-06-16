@@ -1,0 +1,36 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="product" type="Object" default="" />
+    <aura:handler event="c:productClicked" action="{!c.handleProductClicked}" />
+
+    <aura:if isTrue="{!not(empty(v.product))}">
+        <lightning:card title="Details" iconName="utility:list">
+            <lightning:layout>
+
+                <lightning:layoutItem size="4">
+                    <img src="{!v.product.image.src}" class="slds-align_absolute-center crop" />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="8" class="detail-column">
+                    <ul class="slds-list_vertical slds-has-dividers_top-space slds-var-p-horizontal_medium">
+                        <li class="slds-item">
+                            <strong>ID: </strong>{!v.product.id}</li>
+                        <li class="slds-item">
+                            <strong>Name: </strong>{!v.product.title}</li>
+                        <li class="slds-item">
+                            <strong>Price: </strong>{!v.product.variants[0].price}</li>
+                        <li class="slds-item">
+                            <strong>Weight: </strong>{! v.product.variants[0].weight +
+                            v.product.variants[0].weight_unit}
+                        </li>
+                    </ul>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:card>
+
+        <aura:set attribute="else">
+            <lightning:card title="No Product chosen" />
+        </aura:set>
+    </aura:if>
+</aura:component>
