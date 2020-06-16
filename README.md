@@ -1,6 +1,6 @@
 # Shopify Salesforce Integration
 
-<img src = "./ProductView.png"/>
+<img src = "./ProductView.png" style="padding:1px; border:1px solid #021a40;"/>
 
 # Salesforce App
 
