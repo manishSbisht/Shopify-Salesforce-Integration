@@ -1,5 +1,8 @@
 # Shopify Salesforce Integration
 
+<p align="center">
+[![Generic badge](https://img.shields.io/badge/<Made with>-<Apex+JS>-<Green>.svg)](https://shields.io/)
+</p>
 ## What is it?
 This is a Salesforce Lightning App, build using Aura Components with Shopify Admin API as data source.
 
